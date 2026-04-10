@@ -9,7 +9,7 @@
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --black: #000000; --deep: #080810; --surface: #0d0d18; --card: #111120;
-    --cyan: #4dc8e8; --cyan-dim: #2a7a94; --white: #ffffff;
+    --cyan: #4dc8e8; --cyan-dim: #2a7a94; --white: #ffffff; --gold: #ffaa00;
     --white-dim: rgba(255,255,255,0.6); --font-display: 'Orbitron', monospace; --font-body: 'Rajdhani', sans-serif;
   }
   html { scroll-behavior: smooth; }
@@ -31,7 +31,7 @@
   .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--white); text-decoration: none; letter-spacing: 2px; }
   .nav-logo span { color: var(--cyan); border-bottom: 2px solid var(--cyan); }
   .nav-links { display: flex; gap: 30px; list-style: none; }
-  .nav-links a { color: var(--white-dim); text-decoration: none; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: 0.3s; }
+  .nav-links a { color: var(--white-dim); text-decoration: none; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: 0.3s; cursor: none; }
   .nav-links a:hover { color: var(--cyan); }
   .nav-cart { background: none; border: 1px solid var(--cyan); color: var(--white); padding: 8px 20px; cursor: none; display: flex; gap: 10px; align-items: center; }
   .cart-count { background: var(--cyan); color: #000; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
@@ -88,6 +88,9 @@
   .cart-sidebar.open { transform: translateX(0); }
   .modal { background: #0d0d18; border: 1px solid var(--cyan); padding: 40px; width: 500px; max-width: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
+  .support-pulse { display: inline-block; width: 8px; height: 8px; background: #00ff00; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px #00ff00; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
   .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--cyan); color: #000; padding: 12px 25px; font-weight: bold; transition: 0.4s; z-index: 5000; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 </style>
@@ -101,8 +104,7 @@
   <a href="#" class="nav-logo">PLAY<span>RUSH</span></a>
   <ul class="nav-links">
     <li><a href="#games">Magazin</a></li>
-    <li><a href="#games">Noutăți</a></li>
-    <li><a href="#" onclick="alert('Suport live indisponibil momentan.')">Suport</a></li>
+    <li><a href="javascript:void(0)" onclick="openSupport()">Suport</a></li>
   </ul>
   <button class="nav-cart" onclick="openCart()">
     COȘ <div class="cart-count" id="cartCount">0</div>
@@ -137,6 +139,21 @@
   </div>
   <div class="games-grid" id="gamesGrid"></div>
 </section>
+
+<div class="modal-overlay" id="supportModal" onclick="closeSupport()">
+  <div class="modal" style="border-color: var(--gold);" onclick="event.stopPropagation()">
+    <h2 class="section-title" style="font-size: 24px; color: var(--gold);">CENTRU SUPORT</h2>
+    <div style="margin: 25px 0; line-height: 2;">
+      <p><span class="support-pulse"></span> <strong style="color: #00ff00;">STATUS: ONLINE (24/7)</strong></p>
+      <p><strong style="color: var(--cyan);">EMAIL:</strong> play.rush@yahoo.com</p>
+      <p><strong style="color: var(--cyan);">INSTAGRAM:</strong> @playrush.ro</p>
+      <p style="font-size: 13px; margin-top: 20px; color: var(--white-dim); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+        Suntem aici pentru tine! Scrie-ne pe Email sau DM pentru orice întrebare legată de jocuri sau activarea codurilor.
+      </p>
+    </div>
+    <button class="btn-primary" style="width:100%; background: var(--gold);" onclick="closeSupport()">ÎNCHIDE</button>
+  </div>
+</div>
 
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
@@ -177,7 +194,7 @@
 
   let cart = [];
 
-  // Cursor
+  // Cursor logic
   document.addEventListener('mousemove', e => {
     document.getElementById('cursor').style.left = e.clientX + 'px';
     document.getElementById('cursor').style.top = e.clientY + 'px';
@@ -206,32 +223,24 @@
     `).join('');
   }
 
-  function filterOffers() {
-    const offers = games.filter(g => g.badge === "Ofertă" || g.badge === "Bestseller");
-    renderGames(offers);
-    document.getElementById('sectionTitle').innerText = "OFERTE LIMITATE";
-    document.getElementById('filterResetBtn').style.display = "block";
-  }
-
-  function showAll() {
-    renderGames(games);
-    document.getElementById('sectionTitle').innerText = "COLECȚIA NOASTRĂ";
-    document.getElementById('filterResetBtn').style.display = "none";
-  }
+  function openSupport() { document.getElementById('supportModal').classList.add('open'); }
+  function closeSupport() { document.getElementById('supportModal').classList.remove('open'); }
+  function filterOffers() { const offers = games.filter(g => g.badge === "Ofertă" || g.badge === "Bestseller"); renderGames(offers); document.getElementById('sectionTitle').innerText = "OFERTE LIMITATE"; document.getElementById('filterResetBtn').style.display = "block"; }
+  function showAll() { renderGames(games); document.getElementById('sectionTitle').innerText = "COLECȚIA NOASTRĂ"; document.getElementById('filterResetBtn').style.display = "none"; }
 
   function addToCart(id) {
     if(cart.some(c => c.id === id)) return;
     const game = games.find(g => g.id === id);
     cart.push(game);
     updateCart();
-    showToast(`${game.title} a fost adăugat.`);
+    showToast(`${game.title} adăugat în coș!`);
     renderGames(games);
   }
 
   function updateCart() {
     document.getElementById('cartCount').innerText = cart.length;
     document.getElementById('cartItems').innerHTML = cart.map(g => `
-      <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:rgba(255,255,255,0.03); padding:10px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:rgba(255,255,255,0.03); padding:10px; border-left: 2px solid var(--cyan);">
         <span>${g.title}</span>
         <b style="color:var(--cyan)">${g.price} LEI</b>
       </div>
@@ -242,19 +251,13 @@
 
   function openCart() { document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartSidebar').classList.add('open'); }
   function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartSidebar').classList.remove('open'); }
-  
-  function openCheckout() {
-    if(cart.length === 0) return;
-    closeCart();
-    document.getElementById('orderSummary').innerText = "Produse selectate: " + cart.map(g => g.title).join(', ');
-    document.getElementById('checkoutModal').classList.add('open');
-  }
+  function openCheckout() { if(cart.length === 0) return; closeCart(); document.getElementById('orderSummary').innerText = "Produse: " + cart.map(g => g.title).join(', '); document.getElementById('checkoutModal').classList.add('open'); }
   function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
 
   function placeOrder() {
     const email = document.getElementById('femail').value;
-    if(!email) return alert("Avem nevoie de email pentru livrare!");
-    alert("Mulțumim! Vei primi codurile de activare pe " + email + " imediat ce plata este procesată.");
+    if(!email) return alert("Introdu email-ul pentru livrare!");
+    alert("Comandă plasată! Verifică email-ul " + email + " pentru detalii de plată.");
     cart = []; updateCart(); closeCheckout(); renderGames(games);
   }
 
