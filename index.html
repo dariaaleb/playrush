@@ -30,8 +30,6 @@
   .nav-links { display: flex; gap: 30px; list-style: none; }
   .nav-links a { color: var(--white-dim); text-decoration: none; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: 0.3s; cursor: none; }
   .nav-links a:hover { color: var(--cyan); }
-  .nav-cart { background: none; border: 1px solid var(--cyan); color: var(--white); padding: 8px 20px; cursor: none; display: flex; gap: 10px; align-items: center; }
-  .cart-count { background: var(--cyan); color: #000; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
 
   .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; padding: 80px 20px; }
   .hero-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, #111128 0%, #080810 100%); z-index: -2; }
@@ -42,13 +40,10 @@
   .hero-sub { margin-top: 20px; color: var(--white-dim); max-width: 500px; font-size: 18px; }
   
   .hero-cta { margin-top: 40px; display: flex; gap: 20px; }
-  .btn-primary, .btn-secondary { padding: 15px 35px; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; transition: 0.3s; cursor: none; border: none;}
-  .btn-primary { background: var(--cyan); color: #000; }
-  .btn-primary:hover { box-shadow: 0 0 30px var(--cyan); transform: translateY(-3px); }
-  .btn-secondary { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.2); }
+  .btn-primary { padding: 15px 35px; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; transition: 0.3s; cursor: none; border: none; background: var(--cyan); color: #000; }
 
   section { padding: 100px 48px; max-width: 1400px; margin: 0 auto; }
-  .section-header { margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+  .section-header { margin-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
   .section-title { font-family: var(--font-display); font-size: 35px; }
 
   .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
@@ -60,21 +55,21 @@
   .game-info { padding: 25px; }
   .game-title { font-family: var(--font-display); font-size: 20px; margin-bottom: 10px; }
   .game-price { font-family: var(--font-display); font-size: 24px; color: var(--cyan); }
-  .btn-add { width: 100%; margin-top: 15px; background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 12px; font-weight: bold; cursor: none; transition: 0.3s; }
-  .btn-add:hover, .btn-add.added { background: var(--cyan); color: #000; }
+  .btn-buy { width: 100%; margin-top: 15px; background: var(--cyan); border: none; color: #000; padding: 12px; font-weight: 900; cursor: none; transition: 0.3s; font-family: var(--font-display); letter-spacing: 1px;}
+  .btn-buy:hover { box-shadow: 0 0 20px var(--cyan); }
 
-  .cart-overlay, .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s; }
-  .cart-overlay.open, .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .cart-sidebar { position: fixed; top: 0; right: 0; bottom: 0; width: 400px; background: #09090f; border-left: 1px solid var(--cyan); z-index: 2001; transform: translateX(100%); transition: 0.4s; padding: 40px; display: flex; flex-direction: column; }
-  .cart-sidebar.open { transform: translateX(0); }
-  .modal { background: #0d0d18; border: 1px solid var(--cyan); padding: 40px; width: 500px; max-width: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: #0d0d18; border: 1px solid var(--cyan); padding: 40px; width: 500px; max-width: 90%; position: relative; text-align: center; }
 
-  .support-pulse { display: inline-block; width: 8px; height: 8px; background: #00ff00; border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px #00ff00; animation: pulse 1.5s infinite; }
-  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+  .modal-h2 { font-family: var(--font-display); font-size: 26px; margin-bottom: 10px; color: var(--white); }
+  .modal-text { color: var(--white-dim); line-height: 1.6; margin-bottom: 25px; font-size: 16px; }
   
-  input { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: white; font-family: var(--font-body); }
-  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--cyan); color: #000; padding: 12px 25px; font-weight: bold; transition: 0.4s; z-index: 5000; }
-  .toast.show { transform: translateX(-50%) translateY(0); }
+  .btn-ig-direct { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-decoration: none; font-weight: 900; border-radius: 4px; transition: 0.3s; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; font-family: var(--font-display); font-size: 18px; margin-bottom: 25px; }
+  .btn-ig-direct:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(220, 39, 67, 0.3); }
+
+  .payment-box { background: rgba(255,255,255,0.03); border: 1px dashed rgba(77,200,232,0.3); padding: 15px; border-radius: 8px; }
+  .payment-methods { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; color: var(--cyan); font-weight: 600; font-size: 13px; }
 </style>
 </head>
 <body>
@@ -88,16 +83,14 @@
     <li><a href="#games">Magazin</a></li>
     <li><a href="javascript:void(0)" onclick="openSupport()">Suport</a></li>
   </ul>
-  <button class="nav-cart" onclick="openCart()">
-    COȘ <div class="cart-count" id="cartCount">0</div>
-  </button>
+  <div style="color: var(--cyan); font-weight: bold; font-size: 13px; letter-spacing: 1px;">LIVRARE INSTANT ⚡</div>
 </nav>
 
 <div class="hero">
   <div class="hero-bg"></div>
   <div class="hero-lines"></div>
   <h1 class="hero-title">PLAY<span>RUSH</span></h1>
-  <p class="hero-sub">Livrare instantanee pentru cele mai tari titluri. Alege, plătește, joacă.</p>
+  <p class="hero-sub">Jocurile tale preferate, livrate instant. Simplu, rapid și sigur prin Instagram Direct.</p>
   <div class="hero-cta">
     <a href="#games" class="btn-primary">Vezi Catalogul</a>
   </div>
@@ -110,62 +103,51 @@
   <div class="games-grid" id="gamesGrid"></div>
 </section>
 
-<div class="modal-overlay" id="supportModal" onclick="closeSupport()">
-  <div class="modal" style="border-color: var(--gold);" onclick="event.stopPropagation()">
-    <h2 class="section-title" style="font-size: 24px; color: var(--gold);">CENTRU SUPORT</h2>
-    <div style="margin: 25px 0; line-height: 2;">
-      <p><span class="support-pulse"></span> <strong style="color: #00ff00;">STATUS: ONLINE (24/7)</strong></p>
-      <p><strong style="color: var(--cyan);">EMAIL:</strong> play.rush@yahoo.com</p>
-      <p><strong style="color: var(--cyan);">INSTAGRAM:</strong> @playrush.ro</p>
+<div class="modal-overlay" id="buyModal" onclick="closeBuyModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2 class="modal-h2">FINALIZARE COMANDĂ</h2>
+    <p id="modalGameName" style="color: var(--cyan); font-weight: bold; font-family: var(--font-display); margin-bottom: 15px; font-size: 18px;"></p>
+    
+    <p class="modal-text">
+        Comenzile se plasează prin <b>Instagram DM</b>. Plata se poate realiza prin <b>Transfer Bancar, Revolut sau PayPal</b>.
+    </p>
+
+    <a href="#" id="btnIG" class="btn-ig-direct">
+        TRIMITE MESAJ PE INSTAGRAM
+    </a>
+
+    <div class="payment-box">
+        <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--white-dim);">Metode de Plată Acceptate</p>
+        <div class="payment-methods">
+            <span>Transfer Bancar</span> • <span>Revolut</span> • <span>PayPal</span>
+        </div>
     </div>
-    <button class="btn-primary" style="width:100%; background: var(--gold);" onclick="closeSupport()">ÎNCHIDE</button>
+
+    <button onclick="closeBuyModal()" style="width:100%; background:none; border:none; color:gray; margin-top:20px; cursor:none; text-decoration: underline; font-size: 12px;">Înapoi la catalog</button>
   </div>
 </div>
-
-<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
-<div class="cart-sidebar" id="cartSidebar">
-  <h2 class="section-title">COȘUL TĂU</h2>
-  <div id="cartItems" style="flex:1; margin-top:30px; overflow-y: auto;"></div>
-  <div style="border-top: 1px solid #222; padding-top:20px;">
-    <div style="display:flex; justify-content:space-between; font-size: 24px; font-family: var(--font-display); margin-bottom: 20px;">
-      <span>TOTAL:</span>
-      <span id="cartTotal">0.00 LEI</span>
-    </div>
-    <button class="btn-primary" style="width:100%;" onclick="openCheckout()">FINALIZARE PLATĂ →</button>
-  </div>
-</div>
-
-<div class="modal-overlay" id="checkoutModal">
-  <div class="modal">
-    <h2 class="section-title" style="font-size: 24px;">CHECKOUT SECURIZAT</h2>
-    <p style="margin: 15px 0; color: var(--white-dim); font-size: 14px;">Introdu email-ul unde dorești să primești codul de activare după plată.</p>
-    <input type="email" id="customerEmail" placeholder="Email-ul tău (ex: nume@yahoo.com)">
-    <div id="checkoutInfo" style="margin-bottom: 20px; padding: 10px; background: rgba(77,200,232,0.1); font-size: 14px; border-left: 2px solid var(--cyan);"></div>
-    <button class="btn-primary" style="width:100%;" onclick="redirectToStripe()">REDIRECȚIONARE CĂTRE PLATĂ</button>
-    <button onclick="closeCheckout()" style="width:100%; background:none; border:none; color:gray; margin-top:15px; cursor:none;">Anulează</button>
-  </div>
-</div>
-
-<div class="toast" id="toast">Adăugat în coș!</div>
 
 <script>
   const games = [
-    { id: 1, title: "EA FC 25", price: 19.99, stripe: "https://buy.stripe.com/test_14A00j1zVfnf89oaaTcEw00", cover: "https://cdn.akamai.steamstatic.com/steam/apps/2195250/header.jpg" },
-    { id: 2, title: "Hogwarts Legacy", price: 17.99, stripe: "https://buy.stripe.com/test_9B6fZhcez6QJexM6YHcEw01", cover: "https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg" },
-    { id: 3, title: "Red Dead Redemption II", price: 24.99, stripe: "https://buy.stripe.com/test_4gM5kD4M72At1L00AjcEw02", cover: "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg" },
-    { id: 4, title: "Cyberpunk 2077", price: 34.99, stripe: "https://buy.stripe.com/test_00w3cv1zV0sl61g5UDcEw04", cover: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg" },
-    { id: 5, title: "Black Myth: Wukong", price: 34.99, stripe: "https://buy.stripe.com/test_bJe14nfqLcb375k4QzcEw05", cover: "https://cdn.akamai.steamstatic.com/steam/apps/2358720/header.jpg" },
-    { id: 6, title: "The Last of Us Part I", price: 29.99, stripe: "https://buy.stripe.com/test_00w28rcez1wp4Xc4QzcEw06", cover: "https://cdn.akamai.steamstatic.com/steam/apps/1888930/header.jpg" },
-    { id: 7, title: "Grand Theft Auto V", price: 29.99, stripe: "https://buy.stripe.com/test_5kQbJ16Uf3Ex2P40AjcEw07", cover: "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" }
+    { id: 1, title: "EA FC 25", price: 19.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/2195250/header.jpg" },
+    { id: 2, title: "Hogwarts Legacy", price: 17.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg" },
+    { id: 3, title: "Red Dead Redemption II", price: 24.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg" },
+    { id: 4, title: "Cyberpunk 2077", price: 34.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg" },
+    { id: 5, title: "Black Myth: Wukong", price: 34.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/2358720/header.jpg" },
+    { id: 6, title: "The Last of Us Part I", price: 29.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1888930/header.jpg" },
+    { id: 7, title: "Grand Theft Auto V", price: 29.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" }
   ];
 
-  let cart = [];
-
+  // Cursor logic
   document.addEventListener('mousemove', e => {
-    document.getElementById('cursor').style.left = e.clientX + 'px';
-    document.getElementById('cursor').style.top = e.clientY + 'px';
-    document.getElementById('cursor-ring').style.left = e.clientX + 'px';
-    document.getElementById('cursor-ring').style.top = e.clientY + 'px';
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    if(cursor && ring) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        ring.style.left = e.clientX + 'px';
+        ring.style.top = e.clientY + 'px';
+    }
   });
 
   function renderGames() {
@@ -175,75 +157,40 @@
         <div class="game-cover-wrap"><img src="${g.cover}" alt="${g.title}"></div>
         <div class="game-info">
           <div class="game-title">${g.title}</div>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <div class="game-price">${g.price} LEI</div>
-            <button class="btn-add" onclick="addToCart(${g.id})">+ COȘ</button>
-          </div>
+          <div class="game-price">${g.price} LEI</div>
+          <button class="btn-buy" onclick="openBuyModal('${g.title}')">CUMPĂRĂ ACUM</button>
         </div>
       </div>
     `).join('');
   }
 
-  function addToCart(id) {
-    const game = games.find(g => g.id === id);
-    if(cart.some(item => item.id === id)) return showToast("Deja în coș!");
-    cart.push(game);
-    updateCart();
-    showToast("Adăugat în coș!");
-  }
-
-  function updateCart() {
-    document.getElementById('cartCount').innerText = cart.length;
-    document.getElementById('cartItems').innerHTML = cart.map((g, idx) => `
-      <div style="display:flex; justify-content:space-between; margin-bottom:15px; background:rgba(255,255,255,0.03); padding:10px; border-left: 2px solid var(--cyan);">
-        <span>${g.title}</span>
-        <button onclick="removeFromCart(${idx})" style="background:none; border:none; color:#ff4466; cursor:none;">X</button>
-      </div>
-    `).join('');
-    const total = cart.reduce((s, g) => s + g.price, 0);
-    document.getElementById('cartTotal').innerText = total.toFixed(2) + " LEI";
-  }
-
-  function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCart();
-  }
-
-  function openCart() { document.getElementById('cartOverlay').classList.add('open'); document.getElementById('cartSidebar').classList.add('open'); }
-  function closeCart() { document.getElementById('cartOverlay').classList.remove('open'); document.getElementById('cartSidebar').classList.remove('open'); }
-  
-  function openCheckout() {
-    if(cart.length === 0) return alert("Coșul este gol!");
-    closeCart();
-    const info = document.getElementById('checkoutInfo');
-    if(cart.length > 1) {
-      info.innerHTML = `⚠️ Vei plăti acum pentru <b>${cart[0].title}</b>. După finalizare, revino pentru restul produselor.`;
-    } else {
-      info.innerHTML = `Produs: <b>${cart[0].title}</b>`;
-    }
-    document.getElementById('checkoutModal').classList.add('open');
-  }
-
-  function closeCheckout() { document.getElementById('checkoutModal').classList.remove('open'); }
-
-  function redirectToStripe() {
-    const email = document.getElementById('customerEmail').value;
-    if(!email || !email.includes('@')) return alert("Introdu o adresă de email validă!");
+  function openBuyModal(gameName) {
+    document.getElementById('modalGameName').innerText = "Ai ales: " + gameName;
     
-    const product = cart[0];
-    const stripeUrl = product.stripe + "?prefilled_email=" + encodeURIComponent(email);
-    
-    alert("Te redirecționăm către Stripe pentru plata securizată.");
-    window.location.href = stripeUrl;
+    const userInsta = "playrush.ro";
+    const btn = document.getElementById('btnIG');
+
+    // Optimizare pentru deschidere aplicatie sau browser
+    btn.onclick = function(e) {
+        e.preventDefault();
+        // Incerci sa deschizi direct chat-ul
+        window.open(`https://ig.me/m/${userInsta}`, '_blank');
+        
+        // Fallback: Daca nu se intampla nimic, dupa 1.5 secunde duce la profilul oficial
+        setTimeout(() => {
+            window.open(`https://www.instagram.com/${userInsta}/`, '_blank');
+        }, 1500);
+    };
+
+    document.getElementById('buyModal').classList.add('open');
   }
 
-  function openSupport() { document.getElementById('supportModal').classList.add('open'); }
-  function closeSupport() { document.getElementById('supportModal').classList.remove('open'); }
-  
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerText = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2000);
+  function closeBuyModal() {
+    document.getElementById('buyModal').classList.remove('open');
+  }
+
+  function openSupport() { 
+      window.open('https://www.instagram.com/playrush.ro/', '_blank');
   }
 
   renderGames();
