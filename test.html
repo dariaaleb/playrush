@@ -11,124 +11,84 @@
         --card: #0a0a15;
         --cyan: #4dc8e8;
         --pink: #ff0055;
-        --gold: #ffaa00;
         --white: #ffffff;
     }
 
     body {
         margin: 0; background: var(--black); font-family: 'Rajdhani', sans-serif;
-        color: var(--white); overflow: hidden;
+        color: var(--white); height: 100vh; display: flex; align-items: center; justify-content: center;
     }
 
-    /* --- PREMIUM OVERLAY --- */
     #wheel-overlay {
         position: fixed; inset: 0;
-        background: radial-gradient(circle, rgba(13, 13, 24, 0.8) 0%, rgba(5, 5, 8, 1) 100%);
+        background: radial-gradient(circle, rgba(13, 13, 24, 0.9) 0%, rgba(5, 5, 8, 1) 100%);
         backdrop-filter: blur(15px);
         display: flex; justify-content: center; align-items: center;
-        z-index: 20000; visibility: hidden; opacity: 0; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 20000;
     }
-    #wheel-overlay.active { visibility: visible; opacity: 1; }
 
-    /* --- GLOWING BORDER CONTAINER --- */
     .popup-content {
         background: var(--card);
-        padding: 40px; border-radius: 30px; text-align: center;
-        position: relative; width: 95%; max-width: 450px;
+        padding: 30px; border-radius: 30px; text-align: center;
+        position: relative; width: 90%; max-width: 400px;
         border: 1px solid rgba(77, 200, 232, 0.3);
-        box-shadow: 0 0 100px rgba(0, 0, 0, 1), inset 0 0 20px rgba(77, 200, 232, 0.1);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 1);
     }
 
-    /* --- THE WHEEL --- */
-    .wheel-box { 
-        position: relative; margin-bottom: 30px; 
-        filter: drop-shadow(0 0 15px rgba(77, 200, 232, 0.2));
-    }
+    .wheel-box { position: relative; margin-bottom: 20px; width: 100%; display: flex; justify-content: center; }
+    
     #wheel { 
-        width: 100%; height: auto; border-radius: 50%; 
-        border: 8px solid #151525;
-        box-shadow: 0 0 0 4px #0a0a15;
+        width: 100%; max-width: 320px; height: auto; border-radius: 50%; 
+        border: 6px solid #151525;
         transition: transform 5s cubic-bezier(0.15, 0, 0.05, 1);
     }
     
-    /* MARKER CU SCÂNTEI */
     #marker { 
-        position: absolute; top: -15px; left: 50%; transform: translateX(-50%); 
-        color: var(--pink); font-size: 40px; z-index: 100;
+        position: absolute; top: -10px; left: 50%; transform: translateX(-50%); 
+        color: var(--pink); font-size: 30px; z-index: 100;
         filter: drop-shadow(0 0 10px var(--pink));
-        animation: pulse 1s infinite;
     }
 
-    @keyframes pulse {
-        0%, 100% { transform: translateX(-50%) scale(1); }
-        50% { transform: translateX(-50%) scale(1.1); }
-    }
-
-    /* --- PREMIUM BUTTON --- */
     .spin-btn { 
-        background: linear-gradient(90deg, var(--cyan), #2ab2d4); 
-        color: #000; border: none; width: 100%; padding: 18px; 
+        background: var(--cyan); color: #000; border: none; width: 100%; padding: 15px; 
         font-weight: 900; font-family: 'Orbitron'; cursor: pointer; 
-        border-radius: 10px; text-transform: uppercase; letter-spacing: 2px;
-        transition: 0.3s; position: relative; overflow: hidden;
+        border-radius: 10px; text-transform: uppercase; letter-spacing: 1px;
     }
-    .spin-btn:hover { box-shadow: 0 0 30px var(--cyan); transform: translateY(-2px); }
-    .spin-btn::after {
-        content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
-        transform: rotate(45deg); transition: 0.5s;
-    }
-    .spin-btn:hover::after { left: 100%; }
 
-    /* --- GLITCH REVEAL --- */
     #wheel-result { 
         margin-top: 20px; display: none; 
-        animation: glitch-entry 0.5s ease-out;
+        padding: 15px; border: 1px dashed var(--cyan);
     }
+    
     .promo-code-display { 
-        font-size: 32px; color: var(--white); display: block; 
-        font-family: 'Orbitron'; margin-top: 10px;
-        text-shadow: 2px 2px var(--pink), -2px -2px var(--cyan);
-        letter-spacing: 5px; animation: glow-pulse 1.5s infinite;
+        font-size: 28px; color: var(--white); display: block; 
+        font-family: 'Orbitron'; margin-top: 5px;
+        text-shadow: 0 0 10px var(--cyan);
     }
 
-    @keyframes glow-pulse {
-        0%, 100% { opacity: 1; filter: brightness(1); }
-        50% { opacity: 0.8; filter: brightness(1.5); }
-    }
-
-    /* SCÂNTEI (CANVAS SEPARAT) */
     #sparks-canvas {
         position: absolute; inset: 0; pointer-events: none; z-index: 1000;
     }
-
-    .close-btn {
-        position: absolute; top: 15px; right: 20px; color: gray;
-        cursor: pointer; font-size: 24px; transition: 0.3s;
-    }
-    .close-btn:hover { color: var(--pink); }
-
 </style>
 </head>
 <body>
 
-<div id="wheel-overlay" class="active"> <canvas id="sparks-canvas"></canvas>
+<div id="wheel-overlay">
+    <canvas id="sparks-canvas"></canvas>
     <div class="popup-content">
-        <span class="close-btn" onclick="document.getElementById('wheel-overlay').classList.remove('active')">×</span>
         <div class="wheel-box">
             <div id="marker">▼</div>
             <canvas id="wheel" width="400" height="400"></canvas>
         </div>
-        <h2 id="popup-title" style="font-family: 'Orbitron'; font-size: 20px; color: var(--cyan); margin-bottom: 15px;">LOOT BOX DISPONIBIL</h2>
+        <h2 id="popup-title" style="font-family: 'Orbitron'; font-size: 18px; color: var(--cyan); margin-bottom: 15px;">LOOT BOX READY</h2>
         
-        <input type="email" id="spin-email" style="width: 100%; padding: 15px; margin-bottom: 15px; background: #050508; border: 1px solid #222; color: white; border-radius: 8px;" placeholder="EMAIL-UL TĂU PENTRU RECOMPENSĂ...">
+        <input type="email" id="spin-email" style="width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: white; border-radius: 5px;" placeholder="EMAIL-UL TĂU...">
         
         <button id="spin-start-btn" class="spin-btn">ACTIVATE SPIN</button>
 
         <div id="wheel-result">
-            <p style="font-size: 12px; color: var(--cyan); letter-spacing: 2px; margin: 0;">SISTEM COMPROMIS - COD GENERAT:</p>
+            <p style="font-size: 11px; color: var(--cyan); margin: 0;">ACCESS GRANTED - CODE:</p>
             <span id="promo-code-val" class="promo-code-display">-------</span>
-            <p style="font-size: 11px; color: gray; margin-top: 15px; text-transform: uppercase;">Screenshot sau pierzi recompensa!</p>
         </div>
     </div>
 </div>
@@ -144,166 +104,107 @@
     const segments = ["10% OFF", "20% OFF", "10% OFF", "20% OFF", "10% OFF", "20% OFF", "JACKPOT", "10% OFF"];
     const colors = ["#080812", "#121225", "#080812", "#121225", "#080812", "#121225", "#4dc8e8", "#080812"];
 
-    // --- AUDIO ENGINE (VEGAS STYLE) ---
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playClickSound() {
+    // Audio Setup
+    let audioCtx;
+    function initAudio() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function playClick() {
+        if (!audioCtx) return;
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.type = 'sine';
         osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
         osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.05);
     }
 
-    function playWinSound() {
-        const notes = [440, 554, 659, 880];
-        notes.forEach((freq, i) => {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime + i * 0.15);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime + i * 0.15);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + i * 0.15 + 0.3);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(audioCtx.currentTime + i * 0.15); osc.stop(audioCtx.currentTime + i * 0.15 + 0.3);
-        });
-    }
-
-    function drawWheel() {
+    function draw() {
         const arc = (Math.PI * 2) / segments.length;
-        segments.forEach((text, i) => {
+        for(let i=0; i<segments.length; i++) {
             ctx.beginPath();
             ctx.fillStyle = colors[i];
             ctx.moveTo(200, 200);
             ctx.arc(200, 200, 200, i * arc, (i + 1) * arc);
             ctx.fill();
-            ctx.strokeStyle = "rgba(77, 200, 232, 0.3)";
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = "rgba(77,200,232,0.5)";
             ctx.stroke();
-
+            
             ctx.save();
             ctx.translate(200, 200);
             ctx.rotate(i * arc + arc / 2);
-            ctx.textAlign = "right";
-            ctx.fillStyle = colors[i] === "#4dc8e8" ? "#000" : "#fff";
-            ctx.font = "bold 16px Rajdhani";
-            ctx.fillText(text, 185, 6);
+            ctx.fillStyle = "white";
+            ctx.font = "bold 16px Arial";
+            ctx.fillText(segments[i], 100, 10);
             ctx.restore();
-        });
-        
-        // Centru Premium
-        ctx.beginPath();
-        ctx.arc(200, 200, 40, 0, Math.PI * 2);
-        ctx.fillStyle = "#151525";
-        ctx.fill();
-        ctx.strokeStyle = var(--cyan);
-        ctx.stroke();
+        }
     }
-    drawWheel();
+    draw();
 
-    // --- LOGICA DE SPIN CU SCÂNTEI ---
-    let currentRotation = 0;
+    let rotation = 0;
     document.getElementById('spin-start-btn').onclick = function() {
+        initAudio();
         const email = document.getElementById('spin-email').value;
-        if(!email.includes('@')) { alert("INTRODU UN EMAIL VALID!"); return; }
-        
+        if(!email.includes('@')) { alert("Email invalid!"); return; }
+
         this.disabled = true;
-        this.style.opacity = "0";
-        document.getElementById('popup-title').innerText = "SYSTEM BYPASS IN PROGRESS...";
+        const extra = 3600 + Math.floor(Math.random() * 360);
+        rotation += extra;
+        canvas.style.transform = `rotate(${rotation}deg)`;
 
-        const spins = 8 + Math.floor(Math.random() * 5);
-        const extraDeg = Math.floor(Math.random() * 360);
-        const totalRotation = spins * 360 + extraDeg;
-        currentRotation += totalRotation;
-        
-        canvas.style.transform = `rotate(${currentRotation}deg)`;
-
-        // Click Sound Sync
-        let lastSegment = 0;
-        const startTime = Date.now();
-        const duration = 5000;
-
-        const checkClick = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            if (elapsed >= duration) {
-                clearInterval(checkClick);
-                finishSpin(currentRotation);
-                return;
+        // Simulare sunet click
+        let timer = 0;
+        const interval = setInterval(() => {
+            playClick();
+            createSparks();
+            timer += 100;
+            if(timer >= 5000) {
+                clearInterval(interval);
+                showResult(rotation);
             }
-            
-            // Calculam segmentul curent pentru sunet
-            const rotationInTime = (totalRotation * (elapsed / duration));
-            const currentSegment = Math.floor((rotationInTime % 360) / (360 / segments.length));
-            if (currentSegment !== lastSegment) {
-                playClickSound();
-                createSparks();
-                lastSegment = currentSegment;
-            }
-        }, 10);
+        }, 200);
     };
 
-    function finishSpin(rotation) {
-        const actualDeg = rotation % 360;
-        const winnerIdx = Math.floor((360 - (actualDeg % 360)) / (360 / segments.length)) % segments.length;
-        const prize = segments[winnerIdx];
-        
-        const category = (prize === "20% OFF" || prize === "JACKPOT") ? "20% OFF" : "10% OFF";
-        const codeList = LOOT_BOX[category];
-        const finalCode = codeList[Math.floor(Math.random() * codeList.length)];
+    function showResult(rot) {
+        const actualDeg = rot % 360;
+        const idx = Math.floor((360 - (actualDeg % 360)) / (360 / segments.length)) % segments.length;
+        const prize = segments[idx];
+        const cat = (prize.includes("20") || prize === "JACKPOT") ? "20% OFF" : "10% OFF";
+        const code = LOOT_BOX[cat][Math.floor(Math.random() * LOOT_BOX[cat].length)];
 
-        playWinSound();
-        
-        // Efect Flash
-        document.body.style.background = "white";
-        setTimeout(() => { 
-            document.body.style.background = var(--black); 
-            document.getElementById('wheel-result').style.display = "block";
-            document.getElementById('promo-code-val').innerText = finalCode;
-            document.getElementById('popup-title').innerText = "HACK SUCCESSFUL!";
-        }, 100);
+        document.getElementById('wheel-result').style.display = "block";
+        document.getElementById('promo-code-val').innerText = code;
+        document.getElementById('popup-title').innerText = "REWARD UNLOCKED";
     }
 
-    // --- PARTICLE SYSTEM (SCÂNTEI) ---
+    // Sparks
     const sCanvas = document.getElementById('sparks-canvas');
     const sCtx = sCanvas.getContext('2d');
-    sCanvas.width = window.innerWidth;
-    sCanvas.height = window.innerHeight;
-
+    sCanvas.width = window.innerWidth; sCanvas.height = window.innerHeight;
     let particles = [];
-    class Particle {
-        constructor() {
-            this.x = window.innerWidth / 2;
-            this.y = window.innerHeight / 2 - 180;
-            this.vx = (Math.random() - 0.5) * 10;
-            this.vy = (Math.random() - 0.5) * 10;
-            this.life = 1.0;
-            this.color = Math.random() > 0.5 ? '#4dc8e8' : '#ff0055';
-        }
-        update() {
-            this.x += this.vx; this.y += this.vy;
-            this.life -= 0.02;
-        }
-        draw() {
-            sCtx.fillStyle = this.color;
-            sCtx.globalAlpha = this.life;
-            sCtx.fillRect(this.x, this.y, 3, 3);
-        }
-    }
 
     function createSparks() {
-        for(let i=0; i<5; i++) particles.push(new Particle());
+        for(let i=0; i<8; i++) {
+            particles.push({
+                x: window.innerWidth/2, y: window.innerHeight/2 - 150,
+                vx: (Math.random()-0.5)*15, vy: (Math.random()-0.5)*15,
+                life: 1.0
+            });
+        }
     }
 
-    function animateParticles() {
-        sCtx.clearRect(0, 0, sCanvas.width, sCanvas.height);
+    function anim() {
+        sCtx.clearRect(0,0,sCanvas.width, sCanvas.height);
+        particles.forEach((p, i) => {
+            p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+            sCtx.fillStyle = `rgba(77,200,232,${p.life})`;
+            sCtx.fillRect(p.x, p.y, 4, 4);
+        });
         particles = particles.filter(p => p.life > 0);
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animateParticles);
+        requestAnimationFrame(anim);
     }
-    animateParticles();
+    anim();
 </script>
-
 </body>
 </html>
