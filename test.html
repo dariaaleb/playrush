@@ -3,91 +3,105 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLAYRUSH — Magazin Jocuri</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<title>PLAYRUSH — Jocuri Digitale</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  /* --- RESET & CORE --- */
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --black: #000000; --deep: #080810; --surface: #0d0d18; --card: #111120;
-    --cyan: #4dc8e8; --pink: #ff0055; --white: #ffffff;
-    --font-display: 'Orbitron', monospace; --font-body: 'Rajdhani', sans-serif;
+    --cyan: #4dc8e8; --cyan-dim: #2a7a94; --white: #ffffff; --gold: #ffaa00;
+    --pink: #ff0055;
+    --white-dim: rgba(255,255,255,0.6); --font-display: 'Orbitron', monospace; --font-body: 'Rajdhani', sans-serif;
   }
   html { scroll-behavior: smooth; }
-  body { 
-    background: var(--deep); color: var(--white); font-family: var(--font-body); 
-    min-height: 100vh; overflow-x: hidden; cursor: none; 
+  body { background: var(--deep); color: var(--white); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; cursor: none; }
+  
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9999; opacity: 0.4;
   }
 
-  /* --- CURSOR CUSTOM --- */
   #cursor { position: fixed; width: 10px; height: 10px; background: var(--cyan); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%,-50%); mix-blend-mode: screen; }
   #cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(77,200,232,0.4); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); transition: 0.1s ease-out; }
 
-  /* --- NAVIGATION --- */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 18px 48px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 18px 48px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); }
   .nav-logo { font-family: var(--font-display); font-size: 22px; color: var(--white); text-decoration: none; letter-spacing: 2px; }
   .nav-logo span { color: var(--cyan); border-bottom: 2px solid var(--cyan); }
   .nav-links { display: flex; gap: 30px; list-style: none; }
-  .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: 0.3s; cursor: none; }
+  .nav-links a { color: var(--white-dim); text-decoration: none; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; transition: 0.3s; cursor: none; }
   .nav-links a:hover { color: var(--cyan); }
 
-  /* --- HERO --- */
-  .hero { position: relative; min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
-  .hero-title { font-family: var(--font-display); font-size: clamp(40px, 8vw, 90px); font-weight: 900; }
+  .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; overflow: hidden; padding: 80px 20px; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(circle at center, #111128 0%, #080810 100%); z-index: -2; }
+  .hero-lines { position: absolute; inset: 0; background-image: linear-gradient(rgba(77,200,232,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(77,200,232,0.05) 1px, transparent 1px); background-size: 50px 50px; z-index: -1; mask-image: radial-gradient(circle, black, transparent 80%); }
+  
+  .hero-title { font-family: var(--font-display); font-size: clamp(50px, 10vw, 110px); font-weight: 900; line-height: 0.9; }
   .hero-title span { color: transparent; -webkit-text-stroke: 1px var(--cyan); }
-  .hero-sub { margin-top: 15px; color: rgba(255,255,255,0.5); font-size: 18px; max-width: 600px; }
+  .hero-sub { margin-top: 20px; color: var(--white-dim); max-width: 500px; font-size: 18px; }
+  
+  .hero-cta { margin-top: 40px; display: flex; gap: 20px; }
+  .btn-primary { padding: 15px 35px; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; transition: 0.3s; cursor: none; border: none; background: var(--cyan); color: #000; }
 
-  /* --- GRID & CARDS --- */
-  section { padding: 80px 48px; max-width: 1400px; margin: 0 auto; }
-  .section-title { font-family: var(--font-display); font-size: 30px; margin-bottom: 40px; border-left: 4px solid var(--cyan); padding-left: 15px; }
-  .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; }
-  
-  .game-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; position: relative; border-radius: 4px; overflow: hidden; }
+  section { padding: 100px 48px; max-width: 1400px; margin: 0 auto; }
+  .section-header { margin-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+  .section-title { font-family: var(--font-display); font-size: 35px; }
+
+  .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+  .game-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; position: relative; }
   .game-card:hover { transform: translateY(-10px); border-color: var(--cyan); }
-  
-  .game-cover-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #05050a; }
+  .game-cover-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   .game-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
   
-  /* --- SPECIAL STYLE (MYSTERY KEY) --- */
-  .special-card { border: none !important; transform: scale(1.02); z-index: 5; }
+  .game-info { padding: 25px; }
+  .game-title { font-family: var(--font-display); font-size: 20px; margin-bottom: 10px; }
+  .game-price { font-family: var(--font-display); font-size: 24px; color: var(--cyan); }
+  .btn-buy { width: 100%; margin-top: 15px; background: var(--cyan); border: none; color: #000; padding: 12px; font-weight: 900; cursor: none; transition: 0.3s; font-family: var(--font-display); letter-spacing: 1px;}
+  .btn-buy:hover { box-shadow: 0 0 20px var(--cyan); }
+
+  /* --- LEGENDARY DROP --- */
+  .special-card { border: none !important; transform: scale(1.03); z-index: 10; }
   .special-card::before {
-    content: ''; position: absolute; inset: -5px;
-    background: linear-gradient(90deg, var(--cyan), var(--pink), #bc1888, var(--cyan));
-    background-size: 400%; filter: blur(15px); opacity: 0.4; z-index: -1;
-    animation: rainbowRotate 8s linear infinite;
+    content: ''; position: absolute; inset: -8px;
+    background: linear-gradient(90deg, #ff0055, #4dc8e8, #fc00ff, #ff0055);
+    background-size: 400%; filter: blur(20px); opacity: 0.6; z-index: -1;
+    animation: rainbowRotate 4s linear infinite;
   }
-  @keyframes rainbowRotate { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  @keyframes rainbowRotate { 0% { background-position: 0% 50%; } 100% { background-position: 400% 50%; } }
   
-  .mystery-img { 
-    width: 65% !important; height: auto !important; object-fit: contain !important; 
-    filter: drop-shadow(0 0 15px var(--cyan));
-    animation: float 3s ease-in-out infinite; 
-  }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-
   .badge-legend {
-    position: absolute; top: 10px; right: 10px; background: linear-gradient(45deg, var(--pink), #bc1888);
-    padding: 5px 12px; font-family: var(--font-display); font-size: 10px; font-weight: 900; border-radius: 3px; z-index: 10;
+    position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(45deg, #ff0055, #fc00ff); color: white;
+    padding: 8px 20px; font-family: var(--font-display); font-size: 12px; font-weight: 900;
+    border-radius: 5px; box-shadow: 0 0 20px #ff0055; z-index: 20;
   }
 
-  .game-info { padding: 20px; text-align: center; }
-  .game-title { font-family: var(--font-display); font-size: 18px; margin-bottom: 10px; }
-  .game-price { font-family: var(--font-display); font-size: 22px; color: var(--cyan); margin-bottom: 15px; }
-  .btn-buy { width: 100%; padding: 12px; background: var(--cyan); color: #000; border: none; font-family: var(--font-display); font-weight: 900; cursor: none; transition: 0.3s; }
-  .btn-buy:hover { box-shadow: 0 0 15px var(--cyan); transform: scale(1.02); }
+  .mystery-placeholder {
+    font-size: 80px; font-family: var(--font-display); font-weight: 900;
+    color: var(--cyan); text-shadow: 0 0 20px var(--cyan);
+    animation: float 2.5s ease-in-out infinite;
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
   /* --- RULETA POPUP --- */
-  #wheel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.96); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 5000; }
-  .wheel-container { background: var(--surface); border: 1px solid var(--cyan); padding: 40px; position: relative; text-align: center; width: 90%; max-width: 450px; border-radius: 8px; }
-  #wheel-canvas { width: 100%; max-width: 300px; border-radius: 50%; border: 6px solid #1a1a2e; transition: transform 5s cubic-bezier(0.15, 0, 0.05, 1); position: relative; z-index: 10; }
-  #wheel-sparks { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+  #wheel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); display: none; justify-content: center; align-items: center; z-index: 5000; }
+  .wheel-container { background: #0d0d18; border: 1px solid var(--cyan); padding: 40px; position: relative; text-align: center; max-width: 450px; width: 90%; }
+  #wheel-canvas { width: 100%; max-width: 320px; border-radius: 50%; border: 8px solid #111120; transition: transform 5s cubic-bezier(0.15, 0, 0.05, 1); margin-bottom: 20px; position: relative; z-index: 10; }
+  #wheel-sparks { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
   .spin-btn { background: var(--cyan); color: #000; border: none; padding: 15px; width: 100%; font-family: var(--font-display); font-weight: 900; cursor: none; margin-top: 15px; }
-  
+
   /* --- MODAL PLATA --- */
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
   .modal-overlay.open { opacity: 1; pointer-events: all; }
-  .modal { background: var(--surface); border: 1px solid var(--cyan); padding: 40px; width: 90%; max-width: 500px; text-align: center; border-radius: 8px; }
-  .btn-ig-direct { display: flex; align-items: center; justify-content: center; padding: 18px; background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); color: white; text-decoration: none; font-family: var(--font-display); font-weight: 900; margin: 20px 0; border-radius: 4px; }
+  .modal { background: #0d0d18; border: 1px solid var(--cyan); padding: 40px; width: 500px; max-width: 90%; position: relative; text-align: center; }
+  .modal-h2 { font-family: var(--font-display); font-size: 26px; margin-bottom: 10px; color: var(--white); }
+  .modal-text { color: var(--white-dim); line-height: 1.6; margin-bottom: 25px; font-size: 16px; }
+  .btn-ig-direct { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-decoration: none; font-weight: 900; border-radius: 4px; transition: 0.3s; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; font-family: var(--font-display); font-size: 18px; margin-bottom: 25px; }
+  .payment-box { background: rgba(255,255,255,0.03); border: 1px dashed rgba(77,200,232,0.3); padding: 15px; border-radius: 8px; }
+  .payment-methods { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; color: var(--cyan); font-weight: 600; font-size: 13px; }
+
+  .result-text { font-size: 14px; color: var(--white-dim); letter-spacing: 1px; margin-top: 15px; line-height: 1.6; }
+  .result-text span { color: var(--cyan); font-weight: 700; border-bottom: 1px solid var(--cyan); }
 </style>
 </head>
 <body>
@@ -98,62 +112,71 @@
 <nav>
   <a href="#" class="nav-logo">PLAY<span>RUSH</span></a>
   <ul class="nav-links">
-    <li><a href="#games">Store</a></li>
-    <li><a href="javascript:void(0)" onclick="window.open('https://instagram.com/playrush.ro')">Suport</a></li>
+    <li><a href="#games">Magazin</a></li>
+    <li><a href="javascript:void(0)" onclick="openSupport()">Suport</a></li>
   </ul>
+  <div style="color: var(--cyan); font-weight: bold; font-size: 13px; letter-spacing: 1px;">LIVRARE INSTANT ⚡</div>
 </nav>
 
 <div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
   <h1 class="hero-title">PLAY<span>RUSH</span></h1>
-  <p class="hero-sub">Cele mai tari titluri, livrate instant prin Instagram Direct.</p>
+  <p class="hero-sub">Jocurile tale preferate, livrate instant. Simplu, rapid și sigur prin Instagram Direct.</p>
+  <div class="hero-cta">
+    <a href="#games" class="btn-primary">Vezi Catalogul</a>
+  </div>
 </div>
 
 <section id="games">
-  <h2 class="section-title">OFERTE SPECIALE</h2>
+  <div class="section-header">
+    <h2 class="section-title">COLECȚIA DIGITALĂ</h2>
+  </div>
   <div class="games-grid" id="gamesGrid"></div>
 </section>
+
+<div class="modal-overlay" id="buyModal" onclick="closeBuyModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h2 class="modal-h2">FINALIZARE COMANDĂ</h2>
+    <p id="modalGameName" style="color: var(--cyan); font-weight: bold; font-family: var(--font-display); margin-bottom: 15px; font-size: 18px;"></p>
+    <p class="modal-text">Comenzile se plasează prin <b>Instagram DM</b>. Plata se poate realiza prin <b>Transfer Bancar, Revolut sau PayPal</b>.</p>
+    <a href="#" id="btnIG" class="btn-ig-direct">TRIMITE MESAJ PE INSTAGRAM</a>
+    <div class="payment-box">
+        <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--white-dim);">Metode de Plată Acceptate</p>
+        <div class="payment-methods">
+            <span>Transfer Bancar</span> • <span>Revolut</span> • <span>PayPal</span>
+        </div>
+    </div>
+    <button onclick="closeBuyModal()" style="width:100%; background:none; border:none; color:gray; margin-top:20px; cursor:none; text-decoration: underline; font-size: 12px;">Înapoi la catalog</button>
+  </div>
+</div>
 
 <div id="wheel-overlay">
   <div class="wheel-container">
     <canvas id="wheel-sparks"></canvas>
-    <span onclick="closeWheel()" style="position:absolute; top:15px; right:20px; font-size:30px; cursor:none; z-index:100;">&times;</span>
-    <h2 style="font-family: var(--font-display); margin-bottom: 20px;">WHEEL OF FORTUNE</h2>
-    <div style="position: relative; display: flex; justify-content: center; align-items: center;">
-        <div style="position: absolute; top: -15px; z-index: 100; color: var(--pink); font-size: 30px;">▼</div>
+    <span onclick="closeWheel()" style="position:absolute; top:20px; right:20px; cursor:none; font-size:25px; color:white; z-index: 100;">×</span>
+    <h2 style="font-family: var(--font-display); margin-bottom: 20px;">LUCKY WHEEL</h2>
+    <div style="position: relative; display: flex; justify-content: center;">
+        <div style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); color: var(--pink); z-index: 100; font-size: 30px;">▼</div>
         <canvas id="wheel-canvas" width="400" height="400"></canvas>
     </div>
     <div id="spin-controls">
-        <input type="email" id="spin-email" style="width:100%; padding:12px; background:#000; border:1px solid #333; color:#fff; margin: 15px 0 10px 0; outline:none;" placeholder="Introdu email-ul tău...">
-        <button id="spin-btn" class="spin-btn">ÎNVÂRTE ȘI CÂȘTIGĂ</button>
+        <input type="email" id="spin-email" style="width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; margin-bottom: 10px; outline: none;" placeholder="Email-ul tău...">
+        <button id="spin-btn" class="spin-btn">ÎNVÂRTE ROATA</button>
     </div>
-    <div id="spin-result" style="display:none; margin-top:20px;">
-        <p style="color:var(--cyan); font-size:12px;">CODUL TĂU:</p>
-        <h2 id="promo-code" style="font-family: var(--font-display); margin:10px 0;">---</h2>
-        <p style="font-size:11px; color:gray;">Fă un screenshot și trimite-l în DM!</p>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="buyModal" onclick="closeBuyModal()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <h2 id="modalGameName" style="font-family: var(--font-display); color: var(--cyan);"></h2>
-    <p style="margin: 15px 0; color: rgba(255,255,255,0.7);">Pentru a finaliza achiziția, trimite-ne un mesaj privat.</p>
-    <a href="#" id="btnIG" class="btn-ig-direct">MESAJ PE INSTAGRAM</a>
-    <div style="font-size:12px; color:rgba(255,255,255,0.3); border-top: 1px solid #333; pt:15px;">
-        METODE: Transfer Bancar • Revolut • PayPal
+    <div id="spin-result" style="display:none; margin-top: 15px;">
+        <p style="color: var(--cyan); font-size: 11px; letter-spacing: 2px; margin-bottom: 5px;">PROMO CODE</p>
+        <h2 id="promo-code" style="font-family: var(--font-display); color: var(--white); margin-bottom: 10px; font-size: 28px;">-</h2>
+        <p class="result-text">
+            Trimite un <span>screenshot</span> cu acest cod în DM pe Instagram împreună cu comanda ta pentru a activa oferta.
+        </p>
     </div>
   </div>
 </div>
 
 <script>
-  // IMAGINEA TA - FĂRĂ FUNDAL
-  const mysteryImg = "https://i.ibb.co/hR88Wf0/question-mark.png";
-
   const games = [
-    { 
-        id: 0, title: "MYSTERY PREMIUM KEY", price: 9.99, cover: mysteryImg, 
-        isSpecial: true, badge: "LEGENDARY 💎", desc: "DROP: GTA V, FC 25, CYBERPUNK"
-    },
+    { id: 0, title: "MYSTERY PREMIUM KEY", price: 9.99, isSpecial: true, badge: "LEGENDARY DROP 💎" },
     { id: 1, title: "EA FC 25", price: 19.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/2195250/header.jpg" },
     { id: 2, title: "Hogwarts Legacy", price: 17.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg" },
     { id: 3, title: "Red Dead Redemption II", price: 24.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg" },
@@ -161,18 +184,16 @@
     { id: 7, title: "Grand Theft Auto V", price: 29.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" }
   ];
 
-  // RENDER JOCURI
   function renderGames() {
     const grid = document.getElementById('gamesGrid');
     grid.innerHTML = games.map(g => `
       <div class="game-card ${g.isSpecial ? 'special-card' : ''}">
         ${g.isSpecial ? `<div class="badge-legend">${g.badge}</div>` : ''}
         <div class="game-cover-wrap">
-            <img src="${g.cover}" class="${g.isSpecial ? 'mystery-img' : ''}">
+            ${g.isSpecial ? `<div class="mystery-placeholder">?</div>` : `<img src="${g.cover}" alt="${g.title}">`}
         </div>
         <div class="game-info">
           <div class="game-title">${g.title}</div>
-          ${g.isSpecial ? `<p style="font-size:10px; color:#666; margin-bottom:10px;">${g.desc}</p>` : ''}
           <div class="game-price">${g.price} LEI</div>
           <button class="btn-buy" onclick="openBuyModal('${g.title}')">CUMPĂRĂ ACUM</button>
         </div>
@@ -180,7 +201,7 @@
     `).join('');
   }
 
-  // CURSOR LOGIC
+  // --- CURSOR LOGIC ---
   document.addEventListener('mousemove', e => {
     document.getElementById('cursor').style.left = e.clientX + 'px';
     document.getElementById('cursor').style.top = e.clientY + 'px';
@@ -188,26 +209,32 @@
     document.getElementById('cursor-ring').style.top = e.clientY + 'px';
   });
 
-  // MODAL LOGIC
-  function openBuyModal(name) {
-    document.getElementById('modalGameName').innerText = name;
-    document.getElementById('btnIG').href = "https://ig.me/m/playrush.ro";
-    document.getElementById('buyModal').classList.add('open');
-  }
-  function closeBuyModal() { document.getElementById('buyModal').classList.remove('open'); }
-  function closeWheel() { document.getElementById('wheel-overlay').style.display = 'none'; }
-  setTimeout(() => { document.getElementById('wheel-overlay').style.display = 'flex'; }, 3500);
-
-  // LOGICA RULETA (CU SCANTEI)
-  const canvas = document.getElementById('wheel-canvas');
-  const ctx = canvas.getContext('2d');
+  // --- RULETA SPARKLES ---
   const sCanvas = document.getElementById('wheel-sparks');
   const sCtx = sCanvas.getContext('2d');
   sCanvas.width = 450; sCanvas.height = 500;
+  let particles = [];
+  function createSparks() {
+    for(let i=0; i<15; i++) {
+        particles.push({ x: 225, y: 250, vx: (Math.random()-0.5)*15, vy: (Math.random()-0.5)*15, life: 1, c: Math.random()>0.5 ? "#4dc8e8":"#ff0055" });
+    }
+  }
+  function animSparks() {
+    sCtx.clearRect(0,0,450,500);
+    particles.forEach((p, i) => {
+        p.x += p.vx; p.y += p.vy; p.life -= 0.02;
+        sCtx.globalAlpha = p.life; sCtx.fillStyle = p.c;
+        sCtx.fillRect(p.x, p.y, 3, 3);
+    });
+    particles = particles.filter(p => p.life > 0);
+    requestAnimationFrame(animSparks);
+  }
 
+  // --- WHEEL DRAW ---
+  const canvas = document.getElementById('wheel-canvas');
+  const ctx = canvas.getContext('2d');
   const opts = ["5% OFF", "10% OFF", "JACKPOT", "15% OFF", "5% OFF", "20% OFF"];
   const colors = ["#0d0d18", "#111120", "#4dc8e8", "#111120", "#0d0d18", "#111120"];
-  let particles = [];
 
   function drawWheel() {
     const arc = Math.PI / 3;
@@ -220,38 +247,68 @@
     });
   }
 
-  function createSparks() {
-    for(let i=0; i<8; i++) {
-        particles.push({ x: 225, y: 250, vx: (Math.random()-0.5)*12, vy: (Math.random()-0.5)*12, life: 1, c: Math.random()>0.5 ? "#4dc8e8":"#ff0055" });
-    }
-  }
-
-  function animSparks() {
-    sCtx.clearRect(0,0,450,500);
-    particles.forEach((p, i) => {
-        p.x += p.vx; p.y += p.vy; p.life -= 0.02;
-        sCtx.globalAlpha = p.life; sCtx.fillStyle = p.c;
-        sCtx.fillRect(p.x, p.y, 3, 3);
-    });
-    particles = particles.filter(p => p.life > 0);
-    requestAnimationFrame(animSparks);
-  }
-
   let rotation = 0;
   document.getElementById('spin-btn').onclick = function() {
     if(!document.getElementById('spin-email').value.includes('@')) return alert("Introdu un email valid!");
+    
+    // Marcam in memorie ca a rotit roata
+    localStorage.setItem('playrush_wheel_used', 'true');
+    
     document.getElementById('spin-controls').style.display = 'none';
-    const sparkInt = setInterval(createSparks, 80);
-    rotation += 2500 + Math.random() * 2000;
+    const interval = setInterval(createSparks, 100);
+    
+    const rand = Math.random() * 100;
+    let targetDegree;
+    if(rand < 0.3) targetDegree = 120; // JACKPOT
+    else if (rand < 4) targetDegree = 300; // 20%
+    else if (rand < 15) targetDegree = 180; // 15%
+    else {
+        const common = [0, 60, 240]; // 5% si 10%
+        targetDegree = common[Math.floor(Math.random() * common.length)];
+    }
+
+    const extraRotation = (360 - targetDegree) + 90;
+    rotation += (360 * 8) + extraRotation; 
     canvas.style.transform = `rotate(${rotation}deg)`;
+    
     setTimeout(() => {
-        clearInterval(sparkInt);
+        clearInterval(interval);
         document.getElementById('spin-result').style.display = 'block';
         document.getElementById('promo-code').innerText = "RUSH" + Math.floor(1000 + Math.random()*8999);
     }, 5000);
   };
 
-  drawWheel(); animSparks(); renderGames();
+  // --- MODALS & NAVIGATION ---
+  function openBuyModal(gameName) {
+    document.getElementById('modalGameName').innerText = "Ai ales: " + gameName;
+    const userInsta = "playrush.ro";
+    document.getElementById('btnIG').onclick = function(e) {
+        e.preventDefault();
+        window.open(`https://ig.me/m/${userInsta}`, '_blank');
+        setTimeout(() => { window.open(`https://www.instagram.com/${userInsta}/`, '_blank'); }, 1500);
+    };
+    document.getElementById('buyModal').classList.add('open');
+  }
+
+  function closeBuyModal() { document.getElementById('buyModal').classList.remove('open'); }
+  function closeWheel() { document.getElementById('wheel-overlay').style.display = 'none'; }
+  function openSupport() { window.open('https://www.instagram.com/playrush.ro/', '_blank'); }
+
+  // --- LOGICA AFISARE O SINGURA DATA ---
+  window.onload = () => {
+    drawWheel(); 
+    animSparks(); 
+    renderGames();
+
+    // Verificam daca a mai intrat/folosit roata
+    const hasUsedWheel = localStorage.getItem('playrush_wheel_used');
+    
+    if(!hasUsedWheel) {
+        setTimeout(() => { 
+            document.getElementById('wheel-overlay').style.display = 'flex'; 
+        }, 3000);
+    }
+  };
 </script>
 </body>
 </html>
