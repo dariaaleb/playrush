@@ -44,8 +44,26 @@
   .btn-primary { padding: 15px 35px; font-family: var(--font-body); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; transition: 0.3s; cursor: none; border: none; background: var(--cyan); color: #000; }
 
   section { padding: 100px 48px; max-width: 1400px; margin: 0 auto; }
-  .section-header { margin-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+  .section-header { margin-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
   .section-title { font-family: var(--font-display); font-size: 35px; }
+
+  /* --- SEARCH BAR STYLE --- */
+  .search-box {
+    background: var(--card);
+    border: 1px solid rgba(77, 200, 232, 0.3);
+    padding: 12px 20px;
+    border-radius: 4px;
+    color: white;
+    font-family: var(--font-body);
+    width: 100%;
+    max-width: 350px;
+    outline: none;
+    transition: 0.3s;
+  }
+  .search-box:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 15px rgba(77, 200, 232, 0.2);
+  }
 
   .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
   .game-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; position: relative; overflow: hidden; }
@@ -60,44 +78,17 @@
   .btn-buy:hover { box-shadow: 0 0 20px var(--cyan); }
 
   /* --- BUNDLE CORNER --- */
-  .corner-bundle {
-    position: absolute; top: 0; right: 0; width: 80px; height: 80px; overflow: hidden; z-index: 30;
-  }
-  .corner-bundle-text {
-    background: linear-gradient(45deg, #aa0000, #ff0055);
-    color: white; text-align: center; font-weight: 900; font-size: 10px;
-    padding: 5px 0; width: 120px; position: absolute; top: 15px; right: -30px;
-    transform: rotate(45deg); font-family: var(--font-display);
-    box-shadow: 0 0 15px rgba(255,0,85,0.8);
-    animation: flashCorner 1.5s infinite;
-  }
-  @keyframes flashCorner {
-    0%, 100% { filter: brightness(1); }
-    50% { filter: brightness(1.5); box-shadow: 0 0 25px #ff0055; }
-  }
+  .corner-bundle { position: absolute; top: 0; right: 0; width: 80px; height: 80px; overflow: hidden; z-index: 30; }
+  .corner-bundle-text { background: linear-gradient(45deg, #aa0000, #ff0055); color: white; text-align: center; font-weight: 900; font-size: 10px; padding: 5px 0; width: 120px; position: absolute; top: 15px; right: -30px; transform: rotate(45deg); font-family: var(--font-display); box-shadow: 0 0 15px rgba(255,0,85,0.8); animation: flashCorner 1.5s infinite; }
+  @keyframes flashCorner { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.5); box-shadow: 0 0 25px #ff0055; } }
 
   /* --- LEGENDARY DROP --- */
   .special-card { border: none !important; transform: scale(1.03); z-index: 10; overflow: visible !important;}
-  .special-card::before {
-    content: ''; position: absolute; inset: -8px;
-    background: linear-gradient(90deg, #ff0055, #4dc8e8, #fc00ff, #ff0055);
-    background-size: 400%; filter: blur(20px); opacity: 0.6; z-index: -1;
-    animation: rainbowRotate 4s linear infinite;
-  }
+  .special-card::before { content: ''; position: absolute; inset: -8px; background: linear-gradient(90deg, #ff0055, #4dc8e8, #fc00ff, #ff0055); background-size: 400%; filter: blur(20px); opacity: 0.6; z-index: -1; animation: rainbowRotate 4s linear infinite; }
   @keyframes rainbowRotate { 0% { background-position: 0% 50%; } 100% { background-position: 400% 50%; } }
   
-  .badge-legend {
-    position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-    background: linear-gradient(45deg, #ff0055, #fc00ff); color: white;
-    padding: 8px 20px; font-family: var(--font-display); font-size: 12px; font-weight: 900;
-    border-radius: 5px; box-shadow: 0 0 20px #ff0055; z-index: 20;
-  }
-
-  .mystery-placeholder {
-    font-size: 80px; font-family: var(--font-display); font-weight: 900;
-    color: var(--cyan); text-shadow: 0 0 20px var(--cyan);
-    animation: float 2.5s ease-in-out infinite;
-  }
+  .badge-legend { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: linear-gradient(45deg, #ff0055, #fc00ff); color: white; padding: 8px 20px; font-family: var(--font-display); font-size: 12px; font-weight: 900; border-radius: 5px; box-shadow: 0 0 20px #ff0055; z-index: 20; }
+  .mystery-placeholder { font-size: 80px; font-family: var(--font-display); font-weight: 900; color: var(--cyan); text-shadow: 0 0 20px var(--cyan); animation: float 2.5s ease-in-out infinite; }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
   /* --- RULETA POPUP --- */
@@ -116,7 +107,6 @@
   .btn-ig-direct { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-decoration: none; font-weight: 900; border-radius: 4px; transition: 0.3s; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; font-family: var(--font-display); font-size: 18px; margin-bottom: 25px; }
   .payment-box { background: rgba(255,255,255,0.03); border: 1px dashed rgba(77,200,232,0.3); padding: 15px; border-radius: 8px; }
   .payment-methods { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 8px; color: var(--cyan); font-weight: 600; font-size: 13px; }
-
   .result-text { font-size: 14px; color: var(--white-dim); letter-spacing: 1px; margin-top: 15px; line-height: 1.6; }
   .result-text span { color: var(--cyan); font-weight: 700; border-bottom: 1px solid var(--cyan); }
 </style>
@@ -148,6 +138,7 @@
 <section id="games">
   <div class="section-header">
     <h2 class="section-title">COLECȚIA DIGITALĂ</h2>
+    <input type="text" id="gameSearch" class="search-box" placeholder="Caută un joc..." onkeyup="filterGames()">
   </div>
   <div class="games-grid" id="gamesGrid"></div>
 </section>
@@ -193,62 +184,20 @@
 
 <script>
 const games = [
-    { 
-      id: 0, 
-      title: "MYSTERY PREMIUM KEY", 
-      price: 9.99, 
-      isSpecial: true, 
-      badge: "LEGENDARY DROP 💎" 
-    },
-    { 
-      id: 100, 
-      title: "RESIDENT EVIL: 30th ANNIVERSARY COLLECTION", 
-      price: 89.99, 
-      isBundle: true,
-      badge: "13 JOCURI (2005 - 2023) ", 
-      cover: "https://i.postimg.cc/3J1MXFth/resev.avif" 
-    },
-    { 
-      id: 11, 
-      title: "RE4 REMAKE DELUXE + SEPARATE WAYS", 
-      price: 49.99, 
-      cover: "https://i.postimg.cc/h4HwV3Lk/rev.jpg" 
-    },
-    { 
-      id: 1, 
-      title: "EA SPORTS FC 26", 
-      price: 29.99, 
-      cover: "https://i.postimg.cc/nhWP2RB7/fc26.jpg" 
-    },
-    { 
-      id: 2, 
-      title: "Hogwarts Legacy", 
-      price: 17.99, 
-      cover: "https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg" 
-    },
-    { 
-      id: 3, 
-      title: "Red Dead Redemption II", 
-      price: 24.99, 
-      cover: "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg" 
-    },
-    { 
-      id: 4, 
-      title: "Cyberpunk 2077", 
-      price: 34.99, 
-      cover: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg" 
-    },
-    { 
-      id: 7, 
-      title: "Grand Theft Auto V", 
-      price: 29.99, 
-      cover: "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" 
-    }
+    { id: 0, title: "MYSTERY PREMIUM KEY", price: 9.99, isSpecial: true, badge: "LEGENDARY DROP 💎" },
+    { id: 100, title: "RESIDENT EVIL: 30th ANNIVERSARY COLLECTION", price: 89.99, isBundle: true, badge: "13 JOCURI (2005 - 2023) ", cover: "https://i.postimg.cc/3J1MXFth/resev.avif" },
+    { id: 11, title: "RE4 REMAKE DELUXE + SEPARATE WAYS", price: 49.99, cover: "https://i.postimg.cc/h4HwV3Lk/rev.jpg" },
+    { id: 1, title: "EA SPORTS FC 26", price: 29.99, cover: "https://i.postimg.cc/nhWP2RB7/fc26.jpg" },
+    { id: 2, title: "Hogwarts Legacy", price: 17.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg" },
+    { id: 3, title: "Red Dead Redemption II", price: 24.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg" },
+    { id: 4, title: "Cyberpunk 2077", price: 34.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg" },
+    { id: 7, title: "Grand Theft Auto V (GTA V)", price: 29.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" }
 ];
 
-  function renderGames() {
+  // MODIFICAT PENTRU FILTRARE
+  function renderGames(filteredGames = games) {
     const grid = document.getElementById('gamesGrid');
-    grid.innerHTML = games.map(g => `
+    grid.innerHTML = filteredGames.map(g => `
       <div class="game-card ${g.isSpecial ? 'special-card' : ''}">
         ${g.isBundle ? '<div class="corner-bundle"><div class="corner-bundle-text">BUNDLE</div></div>' : ''}
         ${g.isSpecial ? `<div class="badge-legend">${g.badge}</div>` : ''}
@@ -263,6 +212,13 @@ const games = [
         </div>
       </div>
     `).join('');
+  }
+
+  // FUNCTIE FILTRARE NOUA
+  function filterGames() {
+    const term = document.getElementById('gameSearch').value.toLowerCase();
+    const filtered = games.filter(g => g.title.toLowerCase().includes(term));
+    renderGames(filtered);
   }
 
   // --- CURSOR LOGIC ---
@@ -314,12 +270,9 @@ const games = [
   let rotation = 0;
   document.getElementById('spin-btn').onclick = function() {
     if(!document.getElementById('spin-email').value.includes('@')) return alert("Introdu un email valid!");
-    
     localStorage.setItem('playrush_wheel_used', 'true');
-    
     document.getElementById('spin-controls').style.display = 'none';
     const interval = setInterval(createSparks, 100);
-    
     const rand = Math.random() * 100;
     let targetDegree;
     if(rand < 0.3) targetDegree = 120; // JACKPOT
@@ -329,11 +282,9 @@ const games = [
         const common = [0, 60, 240]; // 5% si 10%
         targetDegree = common[Math.floor(Math.random() * common.length)];
     }
-
     const extraRotation = (360 - targetDegree) + 90;
     rotation += (360 * 8) + extraRotation; 
     canvas.style.transform = `rotate(${rotation}deg)`;
-    
     setTimeout(() => {
         clearInterval(interval);
         document.getElementById('spin-result').style.display = 'block';
@@ -361,9 +312,7 @@ const games = [
     drawWheel(); 
     animSparks(); 
     renderGames();
-
     const hasUsedWheel = localStorage.getItem('playrush_wheel_used');
-    
     if(!hasUsedWheel) {
         setTimeout(() => { 
             document.getElementById('wheel-overlay').style.display = 'flex'; 
