@@ -48,7 +48,7 @@
   .section-title { font-family: var(--font-display); font-size: 35px; }
 
   .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-  .game-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; position: relative; }
+  .game-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; position: relative; overflow: hidden; }
   .game-card:hover { transform: translateY(-10px); border-color: var(--cyan); }
   .game-cover-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   .game-cover-wrap img { width: 100%; height: 100%; object-fit: cover; }
@@ -59,8 +59,25 @@
   .btn-buy { width: 100%; margin-top: 15px; background: var(--cyan); border: none; color: #000; padding: 12px; font-weight: 900; cursor: none; transition: 0.3s; font-family: var(--font-display); letter-spacing: 1px;}
   .btn-buy:hover { box-shadow: 0 0 20px var(--cyan); }
 
+  /* --- BUNDLE CORNER --- */
+  .corner-bundle {
+    position: absolute; top: 0; right: 0; width: 80px; height: 80px; overflow: hidden; z-index: 30;
+  }
+  .corner-bundle-text {
+    background: linear-gradient(45deg, #aa0000, #ff0055);
+    color: white; text-align: center; font-weight: 900; font-size: 10px;
+    padding: 5px 0; width: 120px; position: absolute; top: 15px; right: -30px;
+    transform: rotate(45deg); font-family: var(--font-display);
+    box-shadow: 0 0 15px rgba(255,0,85,0.8);
+    animation: flashCorner 1.5s infinite;
+  }
+  @keyframes flashCorner {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.5); box-shadow: 0 0 25px #ff0055; }
+  }
+
   /* --- LEGENDARY DROP --- */
-  .special-card { border: none !important; transform: scale(1.03); z-index: 10; }
+  .special-card { border: none !important; transform: scale(1.03); z-index: 10; overflow: visible !important;}
   .special-card::before {
     content: ''; position: absolute; inset: -8px;
     background: linear-gradient(90deg, #ff0055, #4dc8e8, #fc00ff, #ff0055);
@@ -175,24 +192,71 @@
 </div>
 
 <script>
-  const games = [
-    { id: 0, title: "MYSTERY PREMIUM KEY", price: 9.99, isSpecial: true, badge: "LEGENDARY DROP 💎" },
-    { id: 1, title: "EA FC 25", price: 19.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/2195250/header.jpg" },
-    { id: 2, title: "Hogwarts Legacy", price: 17.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg" },
-    { id: 3, title: "Red Dead Redemption II", price: 24.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg" },
-    { id: 4, title: "Cyberpunk 2077", price: 34.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg" },
-    { id: 7, title: "Grand Theft Auto V", price: 29.99, cover: "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" }
-  ];
+const games = [
+    { 
+      id: 0, 
+      title: "MYSTERY PREMIUM KEY", 
+      price: 9.99, 
+      isSpecial: true, 
+      badge: "LEGENDARY DROP 💎" 
+    },
+    { 
+      id: 100, 
+      title: "RESIDENT EVIL: 30th ANNIVERSARY COLLECTION", 
+      price: 89.99, 
+      isBundle: true,
+      badge: "13 JOCURI (2005 - 2023) ", 
+      cover: "https://i.postimg.cc/3J1MXFth/resev.avif" 
+    },
+    { 
+      id: 11, 
+      title: "RE4 REMAKE DELUXE + SEPARATE WAYS", 
+      price: 49.99, 
+      cover: "https://i.postimg.cc/h4HwV3Lk/rev.jpg" 
+    },
+    { 
+      id: 1, 
+      title: "EA SPORTS FC 26", 
+      price: 29.99, 
+      cover: "https://i.postimg.cc/nhWP2RB7/fc26.jpg" 
+    },
+    { 
+      id: 2, 
+      title: "Hogwarts Legacy", 
+      price: 17.99, 
+      cover: "https://cdn.akamai.steamstatic.com/steam/apps/990080/header.jpg" 
+    },
+    { 
+      id: 3, 
+      title: "Red Dead Redemption II", 
+      price: 24.99, 
+      cover: "https://cdn.akamai.steamstatic.com/steam/apps/1174180/header.jpg" 
+    },
+    { 
+      id: 4, 
+      title: "Cyberpunk 2077", 
+      price: 34.99, 
+      cover: "https://cdn.akamai.steamstatic.com/steam/apps/1091500/header.jpg" 
+    },
+    { 
+      id: 7, 
+      title: "Grand Theft Auto V", 
+      price: 29.99, 
+      cover: "https://cdn.akamai.steamstatic.com/steam/apps/271590/header.jpg" 
+    }
+];
 
   function renderGames() {
     const grid = document.getElementById('gamesGrid');
     grid.innerHTML = games.map(g => `
       <div class="game-card ${g.isSpecial ? 'special-card' : ''}">
+        ${g.isBundle ? '<div class="corner-bundle"><div class="corner-bundle-text">BUNDLE</div></div>' : ''}
         ${g.isSpecial ? `<div class="badge-legend">${g.badge}</div>` : ''}
         <div class="game-cover-wrap">
             ${g.isSpecial ? `<div class="mystery-placeholder">?</div>` : `<img src="${g.cover}" alt="${g.title}">`}
         </div>
         <div class="game-info">
+          ${!g.isSpecial && g.badge ? `<div style="font-size:11px; background:rgba(255,255,255,0.05); padding:3px 8px; display:inline-block; border-radius:4px; margin-bottom:10px; color:var(--white-dim);">${g.badge}</div>` : ''}
           <div class="game-title">${g.title}</div>
           <div class="game-price">${g.price} LEI</div>
           <button class="btn-buy" onclick="openBuyModal('${g.title}')">CUMPĂRĂ ACUM</button>
@@ -251,7 +315,6 @@
   document.getElementById('spin-btn').onclick = function() {
     if(!document.getElementById('spin-email').value.includes('@')) return alert("Introdu un email valid!");
     
-    // Marcam in memorie ca a rotit roata
     localStorage.setItem('playrush_wheel_used', 'true');
     
     document.getElementById('spin-controls').style.display = 'none';
@@ -294,13 +357,11 @@
   function closeWheel() { document.getElementById('wheel-overlay').style.display = 'none'; }
   function openSupport() { window.open('https://www.instagram.com/playrush.ro/', '_blank'); }
 
-  // --- LOGICA AFISARE O SINGURA DATA ---
   window.onload = () => {
     drawWheel(); 
     animSparks(); 
     renderGames();
 
-    // Verificam daca a mai intrat/folosit roata
     const hasUsedWheel = localStorage.getItem('playrush_wheel_used');
     
     if(!hasUsedWheel) {
